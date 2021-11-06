@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  php-app:
+    image: php-app
+    build: . 
+    ports:
+      - "80:80"
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PASS=test
+    volume:
+      - php-app-volume : /var/www/html
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+
+volumes:
+  php-app-volume: ./src
