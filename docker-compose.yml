@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.2"
 
 services:
   php-app:
@@ -8,17 +8,33 @@ services:
       - "80:80"
     environment:
       - MYSQL_HOST=mysql
-      - MYSQL_PASS=test
-    volume:
-      - php-app-volume : /var/www/html
+      - MYSQL_PASS_FILE=/run/secrets/mysqlpasscode
+      - MYSQL_USER_FILE=/run/secrets/mysqlusername
+    volumes:
+      - php-app-volume:/var/www/html
+    secrets:
+      - mysqlpasscode
+      - mysqlusername
     depends_on:
       - mysql
+      
   mysql:
     image: mysql
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: test
-
+      - MYSQL_ROOT_PASSWORD=test
+    volumes:
+      - mysql-volume:/var/lib/mysql 
+      
 volumes:
-  php-app-volume: ./src
+  php-app-volume:
+    external: true
+  mysql-volume:
+    external: true
+   
+secrets:
+  mysqlpasscode:
+    file: pass.txt
+  mysqlusername:
+    file: username.txt  

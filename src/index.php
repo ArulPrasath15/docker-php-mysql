@@ -9,14 +9,16 @@
 
 getenv('MYSQL_HOST') ? $db_host=getenv('MYSQL_HOST') : $db_host="localhost";
 getenv('MYSQL_PORT') ? $db_port=getenv('MYSQL_PORT') : $db_port="3306";
-getenv('MYSQL_USER') ? $db_user=getenv('MYSQL_USER') : $db_user="root";
-getenv('MYSQL_PASS') ? $db_pass=getenv('MYSQL_PASS') : $db_pass="";
+getenv('MYSQL_USER') ? $db_user=getenv('MYSQL_PORT') : $db_user="root";
+getenv('MYSQL_PASS') ? $db_pass=getenv('MYSQL_PORT') : $db_pass="";
+getenv('MYSQL_USER_FILE') ? $db_user=trim(file_get_contents(getenv('MYSQL_USER_FILE'))):null;
+getenv('MYSQL_PASS_FILE') ? $db_pass=trim(file_get_contents(getenv('MYSQL_PASS_FILE'))):null;
 getenv('MYSQL_NAME') ? $db_name=getenv('MYSQL_NAME') : $db_name="";
 
-if (strlen( $db_name ) === 0)
-  $conn = new mysqli("$db_host:$db_port", $db_user, $db_pass);
-else 
-  $conn = new mysqli("$db_host:$db_port", $db_user, $db_pass, $db_name);
+
+
+$conn = new mysqli("$db_host:$db_port", $db_user, $db_pass);
+
 
 // Check connection
 if ($conn -> connect_errno) {
@@ -33,7 +35,6 @@ else{
 
 <?php
 }
-?>
 
 // Check connection
 if ($conn->connect_error) 
@@ -49,7 +50,7 @@ while($row = mysqli_fetch_row( $result ))
 
 $result -> free_result();
 $conn->close();
-
+?>
 
 
 
