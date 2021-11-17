@@ -17,7 +17,10 @@ getenv('MYSQL_NAME') ? $db_name=getenv('MYSQL_NAME') : $db_name="";
 
 
 
-$conn = new mysqli("$db_host:$db_port", $db_user, $db_pass);
+// $conn = new mysqli("$db_host:$db_port", $db_user, $db_pass);
+	
+	
+$conn = new mysqli("mysql:3306", "root", "test");
 
 
 // Check connection
