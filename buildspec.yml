@@ -4,7 +4,6 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - echo $DockerPass | docker login --username $DockerUser --password-stdin 
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=public.ecr.aws/s5o7d0z2/arul-php-app
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
@@ -18,6 +17,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
