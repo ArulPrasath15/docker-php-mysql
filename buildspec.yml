@@ -4,7 +4,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - REPOSITORY_URI=public.ecr.aws/s5o7d0z2/arul-php-app
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 590852515231.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/s5o7d0z2
       - echo $DockerPass | docker login --username $DockerUser --password-stdin 
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
